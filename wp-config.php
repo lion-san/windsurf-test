@@ -35,7 +35,7 @@ define('DB_USER', 'b2efecf5e0ecb8');
 define('DB_PASSWORD', '0becb1de');
 
 /** MySQL のホスト名 */
-define('DB_HOST', 'mysql://b2efecf5e0ecb8:0becb1de@us-cdbr-iron-east-04.cleardb.net/heroku_9ed75e4b74130a3?reconnect=true');
+define('DB_HOST', 'us-cdbr-iron-east-04.cleardb.net');
 
 /** データベースのテーブルを作成する際のデータベースの文字セット */
 define('DB_CHARSET', 'utf8');
