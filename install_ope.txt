@@ -1,0 +1,21 @@
+WordPressのインストール 以下の手順で通常通りwordpressをインストールした。
+
+１．herokuにインストール用のアプリを作成
+
+２．gitでローカルにclone
+
+３．2のディレクトリ内にWordpress日本語版をダウンロードして展開
+
+４．herokuのアプリにmySQLのアドオン、ClearDBを入れる
+
+５．環境変数から、DBの接続情報を確認。
+
+６．mysql://ユーザ名:パスワード@サーバ名/データベース?reconnect=true
+
+７．wp-config.phpにDB情報を反映
+
+８．PushしてDploy
+
+９．wp-admin/install.phpにアクセスして、サイト名やユーザー名などを設定してインストール。 完了
+
+heroku config --app windsurf-test | grep CLEARDB_DATABASE_URL
