@@ -26,17 +26,17 @@
 
 // ** MySQL 設定 - この情報はホスティング先から入手してください。 ** //
 /** WordPress のためのデータベース名 */
-define('DB_NAME', 'heroku_9ed75e4b74130a3');
+define('DB_NAME', 'heroku_63bf7bc898a94d1');
 
 /** MySQL データベースのユーザー名 */
-define('DB_USER', 'b2efecf5e0ecb8');
+define('DB_USER', 'be8a7f5d7ad4b9');
 
 /** MySQL データベースのパスワード */
-define('DB_PASSWORD', '0becb1de');
+define('DB_PASSWORD', 'c0f025ba');
 
 /** MySQL のホスト名 */
 define('DB_HOST', 'us-cdbr-iron-east-04.cleardb.net');
-
+                   
 /** データベースのテーブルを作成する際のデータベースの文字セット */
 define('DB_CHARSET', 'utf8');
 
