@@ -8,6 +8,7 @@
  */
 ?>
 
+
 <?php get_header(); ?>
 
    <?php do_action( 'himalayas_before_body_content' );
