@@ -2080,7 +2080,7 @@ Video background css
     margin: 0 0 15px;
     position: relative;
     font-family: 'Crimson Text', serif;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     font-weight: 700;
 }
 
@@ -2234,7 +2234,7 @@ Video background css
     font-family: 'roboto', sans-serif;
     font-weight: 700;
     letter-spacing: 1px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
 .service-title a {
