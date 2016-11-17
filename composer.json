@@ -1,3 +1,6 @@
-"require" : {
-	"ext-mbstring": "*"
+{
+    "require": {
+        "ext-gd": "*",
+		 "ext-mbstring": "*"
+    }
 }
