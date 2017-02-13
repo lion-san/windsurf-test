@@ -39,13 +39,10 @@ function himalayas_featured_image_slider() { ?>
             if( !empty( $himalayas_slider_image ) ): ?>
             <div class="slides">
 
-               <div class=""> </div>
+               <div class="parallax-overlay"> </div>
 
                <figure>
-                  <?//php echo $himalayas_slider_image; ?>
-                  <?php $image_id = get_post_thumbnail_id(); ?>
-                  <?php $image_attributes = wp_get_attachment_image_src( $image_id, 'full');  ?>
-                  <img src="<?php echo $image_attributes[0]; ?>" width="100%">
+                  <?php echo $himalayas_slider_image; ?>
                </figure>
 
                <?php if( !empty( $himalayas_slider_title ) || !empty( $himalayas_slider_description ) ) { ?>
@@ -61,9 +58,8 @@ function himalayas_featured_image_slider() { ?>
                         <div class="caption-sub">
                            <?php echo $himalayas_slider_description; ?>
                         </div>
-<!--
+
                         <a class="slider-readmore" href="<?php echo get_permalink(); ?>"> <?php echo __( 'Read more', 'himalayas' ) ?></a>
-  -->
                      <?php  } ?>
                   </div>
                <?php  } ?>

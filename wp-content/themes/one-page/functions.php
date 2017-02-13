@@ -19,6 +19,7 @@ include ONEPAGE_DIR . '/includes/customizer-controls.php';
 include ONEPAGE_DIR . '/includes/inkthemes-plugin-notify.php';
 include ONEPAGE_DIR . '/includes/plugin-activation.php';
 include ONEPAGE_DIR . '/includes/dynamic-image.php';
+include ONEPAGE_DIR . '/includes/dummy-data/theme-page.php';
 
 /**
  * Including all required style files in the theme
@@ -142,7 +143,9 @@ function onepage_get_option($option_name, $default_value = '') {
     if (isset($option_data[$option_name]) && $option_data[$option_name] != '') {
         return $option_data[$option_name];
     } elseif ($default_value) {
-        return $default_value;
+        if (isset($option_data['onepage_showdummy']) && $option_data['onepage_showdummy']) {
+            return $default_value;
+        }
     } else {
         return false;
     }
@@ -181,14 +184,16 @@ function onepage_setup() {
 // This theme styles the visual editor with editor-style.css to match the theme style.
     add_editor_style();
     add_theme_support("title-tag");
+    add_theme_support("custom-header");
+    add_theme_support( "custom-background");
 // activate support for thumbnails
 
     register_nav_menus(array(
         'frontpage-menu' => __('Front Page Menu', 'one-page'),
-        'subpage-menu' => __('Sub Page Menu', 'one-page')
+        'subpage-menu' => __('Main Menu', 'one-page')
             )
     );
-    onepage_default_menu();
+//    onepage_default_menu();
 }
 
 add_action('after_setup_theme', 'onepage_setup');
@@ -198,7 +203,7 @@ add_action('after_setup_theme', 'onepage_setup');
  */
 function onepage_default_menu() {
 
-    $menuname = 'OnePage Theme Front Page Menu';
+    $menuname = 'OnePage Theme Menu';
     $menulocation = 'frontpage-menu';
 // Does the menu exist already?
 
@@ -268,6 +273,9 @@ function onepage_add_menuclass($ulclass) {
 add_filter('wp_page_menu', 'onepage_add_menuclass');
 
 function onepage_front_nav() {
+    if (onepage_get_option('onepage_showdummy') && is_page_template('tpl-onepage.php')) {
+        onepage_default_menu();
+    }
     if (function_exists('wp_nav_menu'))
         wp_nav_menu(array('theme_location' => 'frontpage-menu', 'menu_class' => 'nav navbar-nav navbar-right sf-menu sf-js-enabled sf-shadow', 'menu_id' => 'onepage_menu', 'container' => '', 'container_class' => '', 'fallback_cb' => 'onepage_front_nav_fallback'));
     else
@@ -275,33 +283,41 @@ function onepage_front_nav() {
 }
 
 function onepage_front_nav_fallback() {
-    ?><ul class="nav navbar-nav navbar-right sf-menu" id="onepage_menu">
-        <li class="page-scroll">
-            <a href="#page-top"><?php _e('Home', 'one-page'); ?></a>
-        </li>
-        <li class="page-scroll">
-            <a href="#services"><?php _e('Services', 'one-page'); ?></a>
-        </li>
-        <li class="page-scroll">
-            <a href="#blog"><?php _e('Blog', 'one-page'); ?></a>
-        </li>
-        <li class="page-scroll">
-            <a href="#gallery"><?php _e('Gallery', 'one-page'); ?></a>
-        </li>
-        <li class="page-scroll">
-            <a href="#pricing"><?php _e('pricing', 'one-page'); ?></a>
-        </li>
-        <li class="page-scroll">
-            <a href="#team"><?php _e('Team', 'one-page'); ?></a>
-        </li>
-        <li class="page-scroll">
-            <a href="#contact"><?php _e('Contact', 'one-page'); ?></a>
-        </li>
-    </ul>
-    <?php
+    if (onepage_get_option('onepage_showdummy') && is_page_template('tpl-onepage.php')) {
+        ?>
+        <ul class="nav navbar-nav navbar-right sf-menu" id="onepage_menu">
+            <li class="page-scroll">
+                <a href="#page-top"><?php _e('Home', 'one-page'); ?></a>
+            </li>
+            <li class="page-scroll">
+                <a href="#services"><?php _e('Services', 'one-page'); ?></a>
+            </li>
+            <li class="page-scroll">
+                <a href="#blog"><?php _e('Blog', 'one-page'); ?></a>
+            </li>
+            <li class="page-scroll">
+                <a href="#gallery"><?php _e('Gallery', 'one-page'); ?></a>
+            </li>
+            <li class="page-scroll">
+                <a href="#pricing"><?php _e('pricing', 'one-page'); ?></a>
+            </li>
+            <li class="page-scroll">
+                <a href="#team"><?php _e('Team', 'one-page'); ?></a>
+            </li>
+            <li class="page-scroll">
+                <a href="#contact"><?php _e('Contact', 'one-page'); ?></a>
+            </li>
+        </ul>
+        <?php
+    } else {
+        set_theme_mod('nav_menu_locations', '');
+    }
 }
 
 function onepage_subpage_menu_nav() {
+    if (onepage_get_option('onepage_showdummy') && is_page_template('tpl-onepage.php')) {
+        onepage_default_menu();
+    }
     if (function_exists('wp_nav_menu'))
         wp_nav_menu(array('theme_location' => 'subpage-menu', 'container_id' => 'menu_sub', 'menu_class' => 'nav navbar-nav navbar-right sf-menu sf-js-enabled sf-shadow', 'fallback_cb' => 'onepage_nav_fallback'));
     else

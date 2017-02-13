@@ -16,7 +16,7 @@ function himalayas_scripts() {
 	wp_enqueue_style( 'himalayas-google-fonts', '//fonts.googleapis.com/css?family=Crimson+Text:700|Roboto:400,700,900,300' );
 
 	// Load fontawesome
-	wp_enqueue_style( 'himalayas-fontawesome', get_template_directory_uri() . '/font-awesome/css/font-awesome.min.css', array(), '4.6.3' );
+	wp_enqueue_style( 'himalayas-fontawesome', get_template_directory_uri() . '/font-awesome/css/font-awesome.min.css', array(), '4.7.0' );
 
 	/**
 	* Loads our main stylesheet.
@@ -387,7 +387,7 @@ function himalayas_footer_copyright() {
 
 	$tg_link =  '<a href="'. 'http://themegrill.com/themes/himalayas' .'" target="_blank" title="'.esc_attr__( 'ThemeGrill', 'himalayas' ).'" rel="designer">'.__( 'ThemeGrill', 'himalayas') .'</a>';
 
-	$default_footer_value = '<span class="copyright-text">' . sprintf( __( 'Copyright &copy; %1$s %2$s.', 'himalayas' ), date( 'Y' ), $site_link ). ' All rights reserved.' . '</span>';
+	$default_footer_value = '<span class="copyright-text">' . sprintf( __( 'Copyright &copy; %1$s %2$s.', 'himalayas' ), date( 'Y' ), $site_link ).' '.sprintf( __( 'Theme: %1$s by %2$s.', 'himalayas' ), 'Himalayas', $tg_link ).' '.sprintf( __( 'Powered by %s.', 'himalayas' ), $wp_link ) . '</span>';
 
 	$himalayas_footer_copyright = '<div class="copyright">'.$default_footer_value.'</div>';
 	echo $himalayas_footer_copyright;
@@ -457,8 +457,8 @@ function himalayas_custom_css() {
       <?php
    }
 
-   $himalayas_custom_css = get_theme_mod( 'himalayas_custom_css', '' );
-   if( !empty( $himalayas_custom_css ) ) {
+   $himalayas_custom_css = get_theme_mod( 'himalayas_custom_css' );
+   if( $himalayas_custom_css && ! function_exists( 'wp_update_custom_css_post' ) ) {
       echo '<!-- '.get_bloginfo('name').' Custom Styles -->';
       ?><style type="text/css"><?php echo esc_html( $himalayas_custom_css ); ?></style><?php
    }
@@ -588,3 +588,54 @@ function himalayas_get_sidebar() {
 }
 
 add_theme_support( 'woocommerce' );
+
+// Displays the site logo
+if ( ! function_exists( 'himalayas_the_custom_logo' ) ) {
+	/**
+	 * Displays the optional custom logo.
+	 */
+	function himalayas_the_custom_logo() {
+		if ( function_exists( 'the_custom_logo' )  && ( get_theme_mod( 'himalayas_logo','' ) == '') ) {
+			the_custom_logo();
+		}
+	}
+}
+
+/**
+  * Migrate any existing theme CSS codes added in Customize Options to the core option added in WordPress 4.7
+  */
+ function himalayas_custom_css_migrate() {
+
+ 	if ( function_exists( 'wp_update_custom_css_post' ) ) {
+		$custom_css = get_theme_mod( 'himalayas_custom_css' );
+		if ( $custom_css ) {
+			$core_css = wp_get_custom_css(); // Preserve any CSS already added to the core option.
+			$return = wp_update_custom_css_post( $core_css . $custom_css );
+			if ( ! is_wp_error( $return ) ) {
+				// Remove the old theme_mod, so that the CSS is stored in only one place moving forward.
+				remove_theme_mod( 'himalayas_custom_css' );
+			}
+		}
+	}
+}
+
+add_action( 'after_setup_theme', 'himalayas_custom_css_migrate' );
+
+/**
+ * Function to transfer the Header Logo added in Customizer Options of theme to Site Logo in Site Identity section
+ */
+function himalayas_site_logo_migrate() {
+	if ( function_exists( 'the_custom_logo' ) && ! has_custom_logo( $blog_id = 0 ) ) {
+		$logo_url = get_theme_mod( 'himalayas_logo' );
+
+		if ( $logo_url ) {
+			$customizer_site_logo_id = attachment_url_to_postid( $logo_url );
+			set_theme_mod( 'custom_logo', $customizer_site_logo_id );
+
+			// Delete the old Site Logo theme_mod option.
+			remove_theme_mod( 'himalayas_logo' );
+		}
+	}
+}
+
+add_action( 'after_setup_theme', 'himalayas_site_logo_migrate' );

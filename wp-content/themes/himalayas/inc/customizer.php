@@ -58,23 +58,25 @@ function himalayas_customize_register($wp_customize) {
 	$wp_customize->add_section('himalayas_header_title_logo', array(
 		'title'     => __( 'Header Title/Tagline and Logo', 'himalayas' ),
 		'priority'  => 320,
-		'description' => __( '<strong>Note:</strong> The recommended height for header logo image is 68px.', 'himalayas' ),
 		'panel' => 'himalayas_header_options'
 	));
 
-	$wp_customize->add_setting('himalayas_logo', array(
-		'default' => '',
-	  'capability' => 'edit_theme_options',
-	  'sanitize_callback' => 'himalayas_sanitize_url',
-	  'sanitize_js_callback' => 'himalayas_sanitize_js_url'
-	));
-	$wp_customize->add_control(
-		new WP_Customize_Image_Control($wp_customize, 'himalayas_logo', array(
-			'label' 		=> __( 'Header Logo Image Upload', 'himalayas' ),
-			'section' 	=> 'himalayas_header_title_logo',
-			'settings' 	=> 'himalayas_logo'
-		))
-	);
+	if ( ! function_exists('the_custom_logo') ) {
+		$wp_customize->add_setting('himalayas_logo', array(
+			'default' => '',
+			'capability' => 'edit_theme_options',
+			'sanitize_callback' => 'himalayas_sanitize_url',
+			'sanitize_js_callback' => 'himalayas_sanitize_js_url'
+		));
+		$wp_customize->add_control(
+			new WP_Customize_Image_Control($wp_customize, 'himalayas_logo', array(
+				'label' 		=> __( 'Header Logo Image Upload', 'himalayas' ),
+				'section' 	=> 'himalayas_header_title_logo',
+				'description' => sprintf(__( '%sInfo:%s This option will be removed in upcoming update. Please go to Site Identity section to upload the theme logo.', 'himalayas'  ), '<strong>', '</strong>'),
+				'settings' 	=> 'himalayas_logo'
+			))
+		);
+	}
 
 	$wp_customize->add_setting('himalayas_header_logo_placement', array(
 	  'default' => 'header_text_only',
@@ -337,40 +339,42 @@ function himalayas_customize_register($wp_customize) {
 		)
 	));
 
-   // Custom CSS setting
-   class HIMALAYAS_Custom_CSS_Control extends WP_Customize_Control {
+	// Custom CSS setting
+	if ( ! function_exists( 'wp_update_custom_css_post' ) ) {
+	    class HIMALAYAS_Custom_CSS_Control extends WP_Customize_Control {
 
-	  public $type = 'custom_css';
+			public $type = 'custom_css';
 
-	  public function render_content() {
-	  ?>
-		 <label>
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<textarea rows="5" style="width:100%;" <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
-		 </label>
-	  <?php
-	  }
-   }
+			public function render_content() {
+			?>
+				<label>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<textarea rows="5" style="width:100%;" <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
+				</label>
+				<?php
+			}
+		}
 
-   $wp_customize->add_section('himalayas_custom_css_setting', array(
-	  'priority' => 550,
-	  'title' => __('Custom CSS', 'himalayas'),
-	  'panel' => 'himalayas_design_options'
-   ));
+		$wp_customize->add_section('himalayas_custom_css_setting', array(
+			'priority' => 550,
+			'title' => __('Custom CSS', 'himalayas'),
+			'panel' => 'himalayas_design_options'
+		));
 
-   $wp_customize->add_setting('himalayas_custom_css', array(
-	  'default' => '',
-	  'capability' => 'edit_theme_options',
-	  'sanitize_callback' => 'wp_filter_nohtml_kses',
-	  'sanitize_js_callback' => 'wp_filter_nohtml_kses'
-   ));
-   $wp_customize->add_control(
-	new HIMALAYAS_Custom_CSS_Control($wp_customize, 'himalayas_custom_css', array(
-		  'label' => __('Write your Custom CSS', 'himalayas'),
-		  'section' => 'himalayas_custom_css_setting',
-		  'settings' => 'himalayas_custom_css'
-	))
-   );
+		$wp_customize->add_setting('himalayas_custom_css', array(
+			'default' => '',
+			'capability' => 'edit_theme_options',
+			'sanitize_callback' => 'wp_filter_nohtml_kses',
+			'sanitize_js_callback' => 'wp_filter_nohtml_kses'
+		));
+		$wp_customize->add_control(
+			new HIMALAYAS_Custom_CSS_Control($wp_customize, 'himalayas_custom_css', array(
+				'label' => __('Write your Custom CSS', 'himalayas'),
+				'section' => 'himalayas_custom_css_setting',
+				'settings' => 'himalayas_custom_css'
+			))
+		);
+	}
    // End of the Design Options
 
  /**************************************************************************************/

@@ -231,12 +231,11 @@ class himalayas_about_us_widget extends WP_Widget {
 
                      <div class="about-content tg-column-2">
                         <?php
-                        //$output = '<h2 class="about-title"> <a href="' . get_permalink() . '" title="' . $title_attribute . '" alt ="' . $title_attribute . '">' . get_the_title() . '</a></h2>';
-                        $output = '<h2 class="about-title">' . $title_attribute . '</h2>';
+                        $output = '<h2 class="about-title"> <a href="' . get_permalink() . '" title="' . $title_attribute . '" alt ="' . $title_attribute . '">' . get_the_title() . '</a></h2>';
 
                         $output .= '<div class="about-content">' . '<p>' . get_the_excerpt() . '</p></div>';
 
-                        //$output .= '<div class="about-btn"> <a href="'. get_permalink() . '">' . __( 'Read more', 'himalayas' ) . '</a>';
+                        $output .= '<div class="about-btn"> <a href="'. get_permalink() . '">' . __( 'Read more', 'himalayas' ) . '</a>';
 
                         if ( !empty ( $button_text ) ) {
                            $output .= '<a href="' . $button_url . '">' . esc_html( $button_text ) . '<i class="fa ' . $button_icon . '"></i></a>';
@@ -401,14 +400,13 @@ class himalayas_service_widget extends WP_Widget {
                               <?php } ?>
 
                               <div class="service-desc-wrap">
-                                 <!-- <h5 class="service-title"><a title="<?php the_title_attribute(); ?>" href="<?php the_permalink(); ?>" alt="<?php the_title_attribute(); ?>"> <?php echo esc_html( get_the_title() ); ?></a></h5> -->
- <h5 class="service-title"><?php the_title_attribute(); ?></h5>
+                                 <h5 class="service-title"><a title="<?php the_title_attribute(); ?>" href="<?php the_permalink(); ?>" alt="<?php the_title_attribute(); ?>"> <?php echo esc_html( get_the_title() ); ?></a></h5>
+
                                  <div class="service-content">
                                     <?php the_excerpt(); ?>
                                  </div>
-<!--
+
                                  <a class="service-read-more" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"> <?php  _e( 'Read more', 'himalayas' ) ?><i class="fa fa-angle-double-right"> </i></a>
--->
                               </div>
                            </div>
                            <?php $count++;
