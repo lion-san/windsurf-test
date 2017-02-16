@@ -58,8 +58,6 @@ function himalayas_featured_image_slider() { ?>
                         <div class="caption-sub">
                            <?php echo $himalayas_slider_description; ?>
                         </div>
-
-                        <a class="slider-readmore" href="<?php echo get_permalink(); ?>"> <?php echo __( 'Read more', 'himalayas' ) ?></a>
                      <?php  } ?>
                   </div>
                <?php  } ?>
