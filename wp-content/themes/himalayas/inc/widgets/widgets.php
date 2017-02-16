@@ -399,7 +399,7 @@ class himalayas_service_widget extends WP_Widget {
                               <?php } ?>
 
                               <div class="service-desc-wrap">
-                                 <h5 class="service-title"><a title="<?php the_title_attribute(); ?>" href="<?php the_permalink(); ?>" alt="<?php the_title_attribute(); ?>"> <?php echo esc_html( get_the_title() ); ?></a></h5>
+                                 <h5 class="service-title"><a title="<?php the_title_attribute(); ?>"" alt="<?php the_title_attribute(); ?>"> <?php echo esc_html( get_the_title() ); ?></a></h5>
 
                                  <div class="service-content">
                                     <?php the_excerpt(); ?>
